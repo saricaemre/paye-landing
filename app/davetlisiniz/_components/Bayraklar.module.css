@@ -1,0 +1,80 @@
+.bayraklar {
+  position: absolute;
+  inset: 0 0 auto 0;
+  pointer-events: none;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.svg[data-olcu="dar"] {
+  display: none;
+}
+
+@media (max-width: 699px) {
+  .svg[data-olcu="genis"] {
+    display: none;
+  }
+
+  .svg[data-olcu="dar"] {
+    display: block;
+  }
+}
+
+.ip {
+  fill: none;
+  stroke: #6b3d24;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.bayrak {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .bayraklar[data-ac] .ip,
+  .bayraklar[data-visible] .ip {
+    stroke-dasharray: 1 1;
+    animation: ip 0.9s cubic-bezier(0.45, 0, 0.25, 1) 0.15s backwards;
+  }
+
+  .bayraklar[data-ac] .bayrak,
+  .bayraklar[data-visible] .bayrak {
+    animation: dus 0.75s cubic-bezier(0.3, 1.5, 0.55, 1) calc(0.45s + var(--i) * 0.045s) backwards;
+  }
+
+  /* Kapanıştaki süs ekrana girene kadar asılmamış dursun */
+  :global(html.js) .bayraklar[data-reveal]:not([data-visible]) .bayrak,
+  :global(html.js) .bayraklar[data-reveal]:not([data-visible]) .ip {
+    opacity: 0;
+  }
+}
+
+@keyframes ip {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes dus {
+  from {
+    transform: scaleY(0) rotate(-6deg);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}

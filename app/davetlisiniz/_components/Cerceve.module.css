@@ -1,0 +1,169 @@
+/*
+ * Altın çerçeve. Ölçüler üç değişkenle ayarlanır:
+ *   --k   köşe kutusunun boyu (sarmallar bunun içinde)
+ *   --t   kenar çizgisinin kalınlığı
+ *   --sw  sarmalın çizgi kalınlığı, 140 birimlik kutuda (--t × 140 / --k)
+ * Kenar çizgileri köşe kutusunun 18/140'ında durur (sarmalların başladığı hiza).
+ */
+.cerceve {
+  --k: 150px;
+  --t: 2.4px;
+  --sw: 2.24;
+
+  position: absolute;
+  inset: var(--cerceve-ic, 20px);
+  pointer-events: none;
+  color: var(--varak, #d9b452);
+}
+
+.cerceve[data-kucuk] {
+  --k: 70px;
+  --t: 2px;
+  --sw: 4;
+}
+
+@media (max-width: 699px) {
+  .cerceve {
+    --k: 84px;
+    --t: 2.2px;
+    --sw: 3.67;
+  }
+
+  .cerceve[data-kucuk] {
+    --k: 60px;
+    --t: 2px;
+    --sw: 4.67;
+  }
+}
+
+.kenar {
+  position: absolute;
+  background: currentColor;
+  border-radius: 2px;
+}
+
+.kenar[data-k="ust"],
+.kenar[data-k="alt"] {
+  left: calc(var(--k) - 1px);
+  right: calc(var(--k) - 1px);
+  height: var(--t);
+}
+
+.kenar[data-k="ust"] {
+  top: calc(var(--k) * 0.128571 - var(--t) / 2);
+}
+
+.kenar[data-k="alt"] {
+  bottom: calc(var(--k) * 0.128571 - var(--t) / 2);
+}
+
+.kenar[data-k="sol"],
+.kenar[data-k="sag"] {
+  top: calc(var(--k) - 1px);
+  bottom: calc(var(--k) - 1px);
+  width: var(--t);
+}
+
+.kenar[data-k="sol"] {
+  left: calc(var(--k) * 0.128571 - var(--t) / 2);
+}
+
+.kenar[data-k="sag"] {
+  right: calc(var(--k) * 0.128571 - var(--t) / 2);
+}
+
+.kose {
+  position: absolute;
+  width: var(--k);
+  height: var(--k);
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: var(--sw);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.kose[data-k="sol-ust"] {
+  top: 0;
+  left: 0;
+}
+
+.kose[data-k="sag-ust"] {
+  top: 0;
+  right: 0;
+  transform: scaleX(-1);
+}
+
+.kose[data-k="sol-alt"] {
+  bottom: 0;
+  left: 0;
+  transform: scaleY(-1);
+}
+
+.kose[data-k="sag-alt"] {
+  right: 0;
+  bottom: 0;
+  transform: scale(-1, -1);
+}
+
+/* --------------------------------------------------------------------------
+   Açılış: çizgiler kenarların ortasından köşelere uzanır, uçlar sarmala kıvrılır
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .cerceve[data-ciz] .kenar[data-k="ust"],
+  .cerceve[data-ciz] .kenar[data-k="alt"] {
+    animation: yatay 0.85s cubic-bezier(0.45, 0, 0.25, 1) 0.3s backwards;
+  }
+
+  .cerceve[data-ciz] .kenar[data-k="sol"],
+  .cerceve[data-ciz] .kenar[data-k="sag"] {
+    animation: dikey 0.85s cubic-bezier(0.45, 0, 0.25, 1) 0.3s backwards;
+  }
+
+  .cerceve[data-ciz] .uc,
+  .cerceve[data-ciz] .kivrim {
+    stroke-dasharray: 1 1;
+  }
+
+  .cerceve[data-ciz] .uc {
+    animation: ciz 0.16s linear 1.13s backwards;
+  }
+
+  .cerceve[data-ciz] .kivrim {
+    animation: ciz 0.8s cubic-bezier(0.25, 0.55, 0.3, 1) 1.27s backwards;
+  }
+}
+
+@keyframes yatay {
+  from {
+    clip-path: inset(0 50% 0 50%);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes dikey {
+  from {
+    clip-path: inset(50% 0 50% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes ciz {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 0;
+  }
+  2% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}

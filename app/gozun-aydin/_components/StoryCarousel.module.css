@@ -1,0 +1,140 @@
+/* Tek kart yerinde iki hikâye: yatay kaydırma, kart kenarına yaslanma */
+
+.carousel {
+  position: relative;
+}
+
+.track {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  /* kartın gölgesi kesilmesin */
+  padding-bottom: 80px;
+  margin-bottom: -80px;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  flex: 0 0 100%;
+  display: flex;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.slide > * {
+  flex: 1;
+}
+
+/* Mobilde yandaki kartın kenarı görünür; kaydırılabildiği anlaşılır */
+@media (max-width: 959px) {
+  .track {
+    gap: 12px;
+  }
+
+  .slide {
+    flex-basis: calc(100% - 28px);
+  }
+}
+
+.controls {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.dots {
+  display: flex;
+  gap: 4px;
+}
+
+/* Görünen nokta 8 px; dokunma alanı 32 px */
+.dot {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.dot::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgb(14 46 44 / 0.22);
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.35s var(--ease),
+    background 0.25s ease;
+}
+
+.dot[aria-current="true"]::before {
+  width: 26px;
+  background: var(--p-700);
+}
+
+.dot:focus-visible {
+  outline: 3px solid var(--s-300);
+  outline-offset: -2px;
+  border-radius: 999px;
+}
+
+.arrows {
+  display: flex;
+  gap: 10px;
+}
+
+.arrow {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1.5px solid rgb(14 46 44 / 0.18);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--p-800);
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.arrow:hover:not(:disabled) {
+  border-color: var(--p-700);
+  background: var(--p-700);
+  color: #fff;
+}
+
+.arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.arrow:focus-visible {
+  outline: 3px solid var(--s-300);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot::before,
+  .arrow {
+    transition: none;
+  }
+}

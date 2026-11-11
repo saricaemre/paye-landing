@@ -1,0 +1,227 @@
+/* Okuyanın sabahından Rehema'nın sabahına: noktalı yol boyunca düşen damla */
+
+.bridge {
+  --h: var(--bridge-h, clamp(148px, 17vw, 256px));
+  --dot: var(--clay, #bc6c18);
+  --water: var(--p-600, #1e6e6a);
+  display: grid;
+  justify-items: center;
+}
+
+.path {
+  position: relative;
+  width: 40px;
+  height: var(--h);
+}
+
+/* Paye'nin noktalı yolu, dikey */
+.dots,
+.trail {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, var(--dot) 2px, transparent 2.5px) 50% 4px / 6px 14px repeat-y;
+}
+
+/* damlanın geçtiği yer suya döner */
+.trail {
+  background-image: radial-gradient(circle, var(--water) 2.2px, transparent 2.7px);
+  clip-path: inset(0 0 0 0);
+}
+
+.fall {
+  position: absolute;
+  left: 50%;
+  top: -10px;
+  width: 0;
+  height: 0;
+}
+
+.drop {
+  position: absolute;
+  left: -11px;
+  top: -11px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50% 0 50% 50%;
+  background: radial-gradient(circle at 38% 62%, var(--p-200, #add7d3) 0%, var(--p-500, #2e847f) 42%, var(--p-700, #185956) 76%);
+  box-shadow: inset -2px 2px 4px rgb(255 255 255 / 0.4);
+  transform: scale(0) rotate(-45deg);
+}
+
+/* Suyun yüzeyi: düştüğü yerde açılan halkalar */
+.rings {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 0;
+  height: 0;
+}
+
+.rings i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 150px;
+  height: 34px;
+  border: 1.5px solid var(--water);
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.2);
+}
+
+.rings i:nth-child(2) {
+  width: 250px;
+  height: 56px;
+}
+
+.rings i:nth-child(3) {
+  width: 360px;
+  height: 80px;
+}
+
+.after {
+  position: relative;
+  width: 100%;
+  margin-top: 30px;
+}
+
+/* JS yoksa ya da hareket azaltılmışsa: yol çizili, başlık yerinde */
+:global(html:not(.js)) .trail,
+.bridge[data-state="landed"] .trail {
+  clip-path: inset(0);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :global(html.js) .bridge[data-state="idle"] .trail {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  :global(html.js) .bridge:not([data-state="landed"]) .after {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
+
+  .after {
+    transition:
+      opacity 1s var(--ease),
+      transform 1s var(--ease);
+  }
+
+  /* yol uzadı, düşüş de biraz uzun sürüyor (0,82 sn'den 0,9 sn'ye) */
+  .bridge[data-state="falling"] .drop,
+  .bridge[data-state="landed"] .drop {
+    animation:
+      drop-form 0.55s cubic-bezier(0.3, 1.4, 0.5, 1) both,
+      drop-stretch 0.9s cubic-bezier(0.55, 0, 0.9, 0.6) 0.55s forwards,
+      drop-splash 0.18s ease-out 1.45s forwards;
+  }
+
+  .bridge[data-state="falling"] .fall,
+  .bridge[data-state="landed"] .fall {
+    animation: drop-fall 0.9s cubic-bezier(0.55, 0, 0.9, 0.6) 0.55s both;
+  }
+
+  .bridge[data-state="falling"] .trail,
+  .bridge[data-state="landed"] .trail {
+    animation: trail 0.9s cubic-bezier(0.55, 0, 0.9, 0.6) 0.55s both;
+  }
+
+  .bridge[data-state="falling"] .rings i,
+  .bridge[data-state="landed"] .rings i {
+    animation: ring 1.7s cubic-bezier(0.2, 0.7, 0.3, 1) 1.44s both;
+  }
+
+  .bridge[data-state="falling"] .rings i:nth-child(2),
+  .bridge[data-state="landed"] .rings i:nth-child(2) {
+    animation-delay: 1.6s;
+  }
+
+  .bridge[data-state="falling"] .rings i:nth-child(3),
+  .bridge[data-state="landed"] .rings i:nth-child(3) {
+    animation-delay: 1.76s;
+  }
+}
+
+@keyframes drop-form {
+  from {
+    transform: scale(0) rotate(-45deg);
+  }
+  to {
+    transform: scale(1) rotate(-45deg);
+  }
+}
+
+/* düşerken hafifçe uzar */
+@keyframes drop-stretch {
+  from {
+    transform: scale(1) rotate(-45deg);
+  }
+  to {
+    transform: scale(0.84, 1.22) rotate(-45deg);
+  }
+}
+
+/* değdiği an yayılıp kaybolur */
+@keyframes drop-splash {
+  from {
+    transform: scale(0.84, 1.22) rotate(-45deg);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.9, 0.18) rotate(-45deg);
+    opacity: 0;
+  }
+}
+
+@keyframes drop-fall {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, calc(var(--h) + 10px), 0);
+  }
+}
+
+@keyframes trail {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes ring {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+  18% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@media (max-width: 599px) {
+  .rings i {
+    width: 110px;
+    height: 26px;
+  }
+
+  .rings i:nth-child(2) {
+    width: 190px;
+    height: 44px;
+  }
+
+  .rings i:nth-child(3) {
+    width: 270px;
+    height: 60px;
+  }
+}

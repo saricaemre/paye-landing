@@ -1,0 +1,52 @@
+.logo {
+  position: relative;
+  display: block;
+  color: var(--ink-logo, #094c50);
+}
+
+.logo svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  fill: currentColor;
+}
+
+/* Dolmadan önceki boş bardak: logotipin soluk izi */
+.ghost {
+  opacity: 0.13;
+}
+
+.logo[data-fill] .ink {
+  position: absolute;
+  inset: 0;
+}
+
+/*
+ * Su: dalgalı kenarlı bir maske. Maske görüntüsü öğenin 2,5 katı yüksekliğinde;
+ * üst %40'ı boş, altı dolu. Konum %-6'dan %100'e giderken dalga çizgisi
+ * harflerin dibinden tepesinin üstüne çıkar; yatayda da yavaşça akar.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .logo[data-fill] .ink {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 500' preserveAspectRatio='none'%3E%3Cpath d='M0 200Q25 187 50 200T100 200T150 200T200 200V500H0Z'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 500' preserveAspectRatio='none'%3E%3Cpath d='M0 200Q25 187 50 200T100 200T150 200T200 200V500H0Z'/%3E%3C/svg%3E");
+    -webkit-mask-size: 50% 250%;
+    mask-size: 50% 250%;
+    -webkit-mask-repeat: repeat-x;
+    mask-repeat: repeat-x;
+    -webkit-mask-position: 0% 100%;
+    mask-position: 0% 100%;
+    animation: fill 2.6s cubic-bezier(0.3, 0.55, 0.25, 1) 0.35s both;
+  }
+}
+
+@keyframes fill {
+  from {
+    -webkit-mask-position: 0% -6%;
+    mask-position: 0% -6%;
+  }
+  to {
+    -webkit-mask-position: 300% 100%;
+    mask-position: 300% 100%;
+  }
+}

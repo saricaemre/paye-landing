@@ -1,0 +1,9 @@
+/* Çizim, kutusunu (page.module.css: .ucluCizim) doldurur; oranı korunarak ortalanır */
+.cizim {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  /* Çizgi ve küçük noktalar: sayfanın çizim rengi (önceki çizimlerle aynı) */
+  color: #24403d;
+}

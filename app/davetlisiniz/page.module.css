@@ -1,0 +1,663 @@
+/* ==========================================================================
+   Davetlisiniz: Afrika Sünnet Projesi'nin ikinci konsepti
+   Emre'nin getirdiği landing örneğinden: gök mavisi zemin, altın sarmallı
+   davetiye, Rozha One başlık, bayrak süsü, el makaslı şerit, iplik düzeninde
+   hikâye. Paye'nin petrolü, amberi, DM Sans'ı ve Onest'i olduğu gibi duruyor.
+
+   Rozha One'ın tek ağırlığı var: onu kullanan her başlıkta font-weight 400 ve
+   font-synthesis: none (tarayıcı sahte kalın ya da sahte italik üretmesin).
+   Puntolar Yeseva One'dakilerle aynı: Rozha One aynı puntoda daha küçük çıkıyor
+   (100 px'te x-yüksekliği 46'ya 50, büyük harf 56'ya 70), %10 küçültme başlıkları
+   onaylı görünümün altına düşürüyordu. Satır aralıkları 1.05–1.1, harf aralığı 0.
+   ========================================================================== */
+
+.page {
+  /* Örneğin paleti */
+  --gok: #e0f4f8;
+  --gok-acik: #eef8fa;
+  --krem: #f3ebd5;
+  --krem-acik: #f9f6ec;
+  --nane-beyaz: #f2f8f7;
+  --nane-acik: #e5f4ea;
+  --seftali: #fed3af;
+  --mercan: #f2835b;
+
+  /* Davetiyenin varağı (çerçeve, sarmal, kesik çizgi) ve düğme: Paye'nin amber ailesi */
+  --varak: #dcb558;
+  --altin-dugme: var(--s-300);
+  --altin-dugme-koyu: var(--s-400);
+
+  --f-davet: var(--font-rozha), Georgia, "Times New Roman", serif;
+
+  /* Ortak footer'daki "Gaye paylaşmaktır." da serif: bu sayfada Rozha One, eğik değil (Footer.module.css) */
+  --f-motto: var(--f-davet);
+  --motto-stil: normal;
+
+  background: #fff;
+}
+
+.h2 {
+  font-family: var(--f-davet);
+  font-weight: 400;
+  font-synthesis: none;
+  font-size: clamp(2.5rem, 1.7rem + 3vw, 4.1rem);
+  line-height: 1.1;
+  color: var(--p-600);
+  text-wrap: balance;
+}
+
+.ortali {
+  text-align: center;
+}
+
+/* Örnekteki hap düğme: altın zemin, koyu petrol yazı (beyaz yazı sarıda okunmuyor) */
+.dugme {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 58px;
+  padding: 0 34px;
+  border-radius: 999px;
+  background: var(--altin-dugme);
+  color: var(--p-950);
+  font-family: var(--f-heading);
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow:
+    inset 0 -3px 0 rgb(14 46 44 / 0.12),
+    0 16px 30px -18px rgb(176 120 20 / 0.75);
+  transition:
+    background-color 0.25s ease,
+    transform 0.25s var(--ease),
+    box-shadow 0.25s ease;
+}
+
+.dugme:hover {
+  background: var(--altin-dugme-koyu);
+  transform: translateY(-2px);
+}
+
+.dugme:active {
+  transform: scale(0.98);
+}
+
+.dugme:focus-visible {
+  outline: 3px solid var(--p-600);
+  outline-offset: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   1 · Giriş: davetiye
+   -------------------------------------------------------------------------- */
+
+.giris {
+  position: relative;
+  padding: clamp(144px, 11.6vw, 176px) var(--gutter) clamp(28px, 4vw, 52px);
+  background: var(--gok);
+}
+
+.girisBayrak {
+  top: clamp(56px, 4.6vw, 72px);
+  z-index: 3;
+}
+
+.davetiye {
+  position: relative;
+  z-index: 2;
+  max-width: 1000px;
+  margin-inline: auto;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow:
+    0 1px 0 rgb(14 46 44 / 0.04),
+    0 50px 90px -60px rgb(14 46 44 / 0.5);
+}
+
+.davetiyeCerceve {
+  --cerceve-ic: clamp(10px, 1.2vw, 16px);
+}
+
+.davetiyeIc {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(100px, 9vw, 128px) clamp(36px, 7vw, 110px) clamp(112px, 10vw, 140px);
+  text-align: center;
+}
+
+.muhur {
+  width: 40px;
+  height: auto;
+  margin-bottom: clamp(16px, 1.6vw, 20px);
+  color: var(--varak);
+}
+
+.baslik {
+  font-family: var(--f-davet);
+  font-weight: 400;
+  font-synthesis: none;
+  font-size: clamp(3.5rem, 1.6rem + 6vw, 6.75rem);
+  line-height: 1.05;
+  color: var(--p-600);
+}
+
+.davetMetin {
+  max-width: 26em;
+  margin-top: clamp(18px, 2vw, 26px);
+  font-size: clamp(1.08rem, 0.98rem + 0.4vw, 1.3rem);
+  line-height: 1.55;
+  color: #1c2b2a;
+  text-wrap: balance;
+}
+
+.davetiyeIc .dugme {
+  margin-top: clamp(26px, 3vw, 36px);
+}
+
+/* Davete katılmanın ne demek olduğu: "₺2.000 ile bir çocuğun sünnetini üstlenirsiniz" */
+.tutar {
+  margin-top: 14px;
+  font-size: 15.5px;
+  color: #3b4a49;
+  text-wrap: balance;
+}
+
+.tutar strong {
+  font-family: var(--f-heading);
+  font-weight: 700;
+  color: var(--p-800);
+}
+
+/* Davetiyelerin dibindeki matbaa satırının yeri; artık tutar satırı burada durur */
+.matbaa {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(44px, 5vw, 60px);
+  margin: 0;
+  padding-inline: 48px;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .davetiye {
+    animation: kartGel 1s var(--ease) 0.05s backwards;
+  }
+
+  .muhur,
+  .baslik,
+  .davetMetin,
+  .davetiyeIc .dugme,
+  .tutar,
+  .matbaa {
+    animation: icGel 0.9s var(--ease) backwards;
+  }
+
+  .muhur {
+    animation-delay: 0.45s;
+  }
+
+  .baslik {
+    animation-delay: 0.55s;
+  }
+
+  .davetMetin {
+    animation-delay: 0.75s;
+  }
+
+  .davetiyeIc .dugme {
+    animation-delay: 0.9s;
+  }
+
+  .tutar,
+  .matbaa {
+    animation-delay: 1.05s;
+  }
+}
+
+@keyframes kartGel {
+  from {
+    opacity: 0;
+    transform: translateY(34px) scale(0.985);
+  }
+}
+
+@keyframes icGel {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2 · Davetin üç satırı
+   -------------------------------------------------------------------------- */
+
+.uclu {
+  padding: clamp(64px, 8vw, 112px) var(--gutter) clamp(110px, 12vw, 164px);
+  background: var(--gok);
+}
+
+.ucluBaslik {
+  margin-bottom: clamp(36px, 4vw, 56px);
+  font-family: var(--f-davet);
+  font-weight: 400;
+  font-synthesis: none;
+  font-size: clamp(1.75rem, 1.3rem + 1.4vw, 2.4rem);
+  line-height: 1.1;
+  text-align: center;
+  color: var(--p-600);
+}
+
+.ucluListe {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(24px, 5vw, 80px);
+  max-width: 1000px;
+  margin-inline: auto;
+}
+
+.ucluOge {
+  text-align: center;
+}
+
+/* Kutu önceki çizimlerin ölçüsünde kalır (160:112); yeni çizimler (240:200) içine sığıp ortalanır */
+.ucluCizim {
+  width: clamp(124px, 13vw, 164px);
+  aspect-ratio: 160 / 112;
+  margin: 0 auto 20px;
+}
+
+/* Üç cümle de iki satıra kırılsın diye dar tutulur (Emre, 11 Kasım 2026) */
+.ucluOge p {
+  max-width: 13em;
+  margin-inline: auto;
+  font-size: clamp(16px, 0.95rem + 0.2vw, 17.5px);
+  line-height: 1.5;
+  color: #1c2b2a;
+  text-wrap: balance;
+}
+
+/* --------------------------------------------------------------------------
+   3 · Juma'nın hikâyesi
+   -------------------------------------------------------------------------- */
+
+.hikaye {
+  padding: clamp(120px, 13vw, 176px) 0 clamp(64px, 7vw, 100px);
+  background: #fff;
+}
+
+/* Dört an tek, dar bir sütunda alt alta; kart, çerçeve ve altyazı yok. Sütunun solunda
+   ince bir iplik: her anın başlığı hizasında bir nokta, çizgi ilk noktada başlar,
+   son noktada biter. Metin sütunu sayfanın ortasında, iplik onun sol boşluğunda. */
+.iplik {
+  --girinti: clamp(30px, 3vw, 44px);
+  --nokta: 10px;
+  --ara: clamp(52px, 8vw, 116px);
+  --baslik-boy: clamp(1.75rem, 1.3rem + 1.5vw, 2.6rem);
+  /* başlığın ilk satırının ortası (satır yüksekliği 1.1) */
+  --nokta-y: calc(var(--baslik-boy) * 0.56);
+  --iz: #f1e2bd;
+  --iplik-dolu: #e3c77e;
+
+  max-width: calc(660px + 2 * var(--girinti));
+  margin: clamp(44px, 5vw, 72px) auto 0;
+  padding: 0 var(--girinti);
+}
+
+.parca {
+  position: relative;
+}
+
+.parca + .parca {
+  margin-top: var(--ara);
+}
+
+/* İplik parça parça çizilir: her an kendi noktasından bir sonrakinin noktasına uzanır,
+   sonuncuda çizgi yok. ::before soluk iz, ::after kaydırdıkça dolan kısım (--dolu). */
+.parca:not(:last-child)::before,
+.parca:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: var(--nokta-y);
+  left: calc(var(--nokta) / 2 - 1px - var(--girinti));
+  width: 2px;
+  height: calc(100% + var(--ara));
+  border-radius: 2px;
+  background: var(--iz);
+}
+
+.parca:not(:last-child)::after {
+  background: var(--iplik-dolu);
+  transform-origin: 50% 0;
+  transform: scaleY(var(--dolu, 1));
+  transition: transform 0.2s linear;
+}
+
+.parcaBaslik {
+  position: relative;
+  font-family: var(--f-davet);
+  font-weight: 400;
+  font-synthesis: none;
+  font-size: var(--baslik-boy);
+  line-height: 1.1;
+  color: var(--p-900);
+  text-wrap: balance;
+}
+
+/* Nokta: çizginin üstünde, başlığın ilk satırı hizasında; beyaz halka çizgiyi arkasına alır */
+.parcaBaslik::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: calc(0.56em - var(--nokta) / 2);
+  left: calc(-1 * var(--girinti));
+  width: var(--nokta);
+  height: var(--nokta);
+  border-radius: 50%;
+  background: var(--varak);
+  box-shadow: 0 0 0 4px #fff;
+}
+
+.parcaMetin {
+  margin-top: 20px;
+  font-size: clamp(1.03rem, 0.97rem + 0.22vw, 1.15rem);
+  line-height: 1.72;
+  color: #24302f;
+  text-wrap: pretty;
+}
+
+/* Görsellerin hepsi aynı oranda ve sütun genişliğinde */
+.parcaFoto {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  margin-top: clamp(24px, 2.4vw, 32px);
+  background: var(--krem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .parca::after {
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Temsilî notu: başlığın hemen altında, küçük bir alt satır */
+
+/* --------------------------------------------------------------------------
+   4 · Bağış: cevap kartı
+   -------------------------------------------------------------------------- */
+
+/* Zemin kremin bir kademe açığı: aynı ton ve doygunluk (44°, %56), açıklık 89,4 → 95 */
+.bagis {
+  padding-block: clamp(88px, 10vw, 144px);
+  background: hsl(44deg 56% 95%);
+}
+
+.bagisIzgara {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 500px);
+  grid-template-areas: "sol kart";
+  align-items: start;
+  column-gap: clamp(40px, 7vw, 120px);
+}
+
+.bagisSol {
+  grid-area: sol;
+  position: sticky;
+  top: 132px;
+  padding-top: clamp(24px, 4vw, 64px);
+}
+
+.bagisKart {
+  grid-area: kart;
+}
+
+.bagisMetin {
+  max-width: 28em;
+  margin-top: 24px;
+  font-size: clamp(1.08rem, 1rem + 0.35vw, 1.25rem);
+  line-height: 1.65;
+  color: #24302f;
+}
+
+/* --------------------------------------------------------------------------
+   5 · Sorular
+   -------------------------------------------------------------------------- */
+
+.sss {
+  padding-block: clamp(80px, 9vw, 128px);
+  background: #fff;
+}
+
+.sssIzgara {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+  gap: clamp(28px, 5vw, 80px);
+  align-items: start;
+}
+
+.sssMetin {
+  max-width: 24em;
+  margin: 18px 0 24px;
+  color: var(--text);
+}
+
+/* --------------------------------------------------------------------------
+   6 · Kapanış
+   -------------------------------------------------------------------------- */
+
+.kapanis {
+  position: relative;
+  padding: clamp(176px, 16vw, 240px) 0 clamp(96px, 10vw, 140px);
+  background: var(--gok);
+  text-align: center;
+}
+
+.kapanisBayrak {
+  top: 0;
+}
+
+.kapanisIc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.kapanisBaslik {
+  font-family: var(--f-davet);
+  font-weight: 400;
+  font-synthesis: none;
+  font-size: clamp(3.1rem, 1.6rem + 5.4vw, 6.4rem);
+  line-height: 1.05;
+  color: var(--p-600);
+}
+
+/* Biri Kaldı'nın altın noktası */
+.nokta {
+  color: var(--s-400);
+}
+
+.kapanisMetin {
+  max-width: 26em;
+  margin-top: 22px;
+  font-size: clamp(1.08rem, 1rem + 0.35vw, 1.25rem);
+  line-height: 1.6;
+  color: #1c2b2a;
+  text-wrap: balance;
+}
+
+.kapanisIc .dugme {
+  margin-top: 34px;
+}
+
+/* Paylaşım şeridi: footer'la tek parça koyu zemin */
+.paylas {
+  padding-block: 40px 8px;
+  background: var(--p-950);
+  color: rgb(255 255 255 / 0.9);
+}
+
+.paylasIc {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px 28px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgb(255 255 255 / 0.1);
+}
+
+.paylasIc p {
+  font-family: var(--f-heading);
+  font-weight: 500;
+  font-size: 17px;
+}
+
+/* Yapışkan çubuk: düğme davetiyeninki gibi altın */
+.cubukDugme {
+  background: var(--altin-dugme);
+  color: var(--p-950);
+}
+
+.cubukDugme:hover {
+  background: var(--altin-dugme-koyu);
+}
+
+@media (min-width: 1000px) {
+  .cubuk {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Dar ekranlar
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 999px) {
+  .bagisIzgara {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "baslik"
+      "kart"
+      "yazi";
+    max-width: 620px;
+  }
+
+  /* Telefonda kart başlığın hemen altında: sol sütun dağılır, parçaları sıraya girer */
+  .bagisSol {
+    display: contents;
+  }
+
+  .bagisBaslik {
+    grid-area: baslik;
+    margin-bottom: 28px;
+  }
+
+  .bagisYazi {
+    grid-area: yazi;
+  }
+
+  .bagisMetin {
+    margin-top: 32px;
+  }
+
+  .sssIzgara {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 699px) {
+  /* İplik solda kalır, içerik onun sağında; sağda ayrıca boşluk bırakılmaz */
+  .iplik {
+    --girinti: 26px;
+    --nokta: 9px;
+    padding-right: 0;
+  }
+
+  /* Telefonda davetiye ekranın tepesine yaslanır, alt köşeleri yuvarlak (örnekteki gibi) */
+  .giris {
+    padding: 0 12px 8px;
+  }
+
+  .girisBayrak {
+    top: 74px;
+  }
+
+  .davetiye {
+    overflow: hidden;
+    border-radius: 0 0 30px 30px;
+  }
+
+  /* Üst kenar ekranın dışında; yan çizgiler logonun ve düğmenin arkasından geçmesin diye
+     header'ın altından başlar (kartın 76 px'i = çerçevenin 120 + 76 px'i) */
+  .davetiye .davetiyeCerceve {
+    --cerceve-ic: 14px;
+    top: -120px;
+    clip-path: inset(196px 0 0 0);
+  }
+
+  .davetiyeIc {
+    padding: 212px 30px 118px;
+  }
+
+  .muhur {
+    width: 36px;
+  }
+
+  /* Başlık çerçevenin iki çizgisinin arasında kalsın */
+  .baslik {
+    font-size: clamp(2.5rem, 12.4vw, 3.5rem);
+  }
+
+  .matbaa {
+    bottom: 42px;
+    padding-inline: 40px;
+    font-size: 14.5px;
+  }
+
+  .uclu {
+    padding-top: 52px;
+  }
+
+  .ucluListe {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 26px;
+    max-width: 420px;
+  }
+
+  /* Satırlar 375 px'te de en çok iki satır (revizyon): çizim kutusu aynı, metin
+     sütunu 10 px'lik aralıkla genişler, yazı 15 px */
+  .ucluOge {
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr);
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+  }
+
+  .ucluCizim {
+    width: 112px;
+    margin: 0;
+  }
+
+  .ucluOge p {
+    margin: 0;
+    max-width: none;
+    font-size: 15px;
+    text-wrap: pretty;
+  }
+
+  .kapanis {
+    padding-top: 150px;
+  }
+
+  .paylasIc {
+    justify-content: center;
+    text-align: center;
+  }
+}

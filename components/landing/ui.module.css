@@ -1,0 +1,351 @@
+/* ==========================================================================
+   Paye kampanya landing'leri: ortak tasarım katmanı
+   Renkler ve fontlar payeinsaniyardim.org.tr'nin kendi tasarım
+   değişkenlerinden alındı (Tailwind v4 @theme: primary / secondary / paper / peg).
+   ========================================================================== */
+
+.landing {
+  /* Birincil: petrol yeşili */
+  --p-50: #eef6f5;
+  --p-100: #d5ebe9;
+  --p-200: #add7d3;
+  --p-300: #7ebdb8;
+  --p-400: #4f9f99;
+  --p-500: #2e847f;
+  --p-600: #1e6e6a;
+  --p-700: #185956;
+  --p-800: #134a47;
+  --p-900: #0f3b39;
+  --p-950: #0e2e2c;
+
+  /* İkincil: amber / altın */
+  --s-50: #fdf7ec;
+  --s-100: #faeacb;
+  --s-200: #f5d497;
+  --s-300: #f7c65a;
+  --s-400: #e9a23b;
+  --s-500: #db8a22;
+  --s-600: #bc6c18;
+  --s-700: #9a5217;
+
+  /* Kâğıt tonları */
+  --paper: #fbfaf7;
+  --cream: #f4ede1;
+  --cream-deep: #e9dcc5;
+  --peg: #c9a67a;
+  --peg-dark: #b8915f;
+  --peg-light: #e3c9a1;
+
+  /* Metin */
+  --ink: #0e2e2c;
+  --text: #2a3a39;
+  --muted: #5d6c6a;
+  --line: rgb(14 46 44 / 0.12);
+
+  --f-display: "Iowan Old Style", Georgia, serif;
+  --f-heading: var(--font-onest), ui-sans-serif, system-ui, sans-serif;
+  --f-body: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+
+  --gutter: clamp(20px, 4.2vw, 48px);
+  --max: 1240px;
+  --radius: 28px;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --shadow-card: 0 24px 60px -34px rgb(14 46 44 / 0.45);
+
+  position: relative;
+  overflow-x: clip;
+  background: var(--paper);
+  color: var(--text);
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* Klavyeyle gezilen ya da çapayla inilen öğe sabit header'ın ve alttaki
+   bağış çubuğunun altında kalmasın (WCAG 2.4.11) */
+:global(html):has(.landing) {
+  scroll-padding-top: 88px;
+  scroll-padding-bottom: 96px;
+}
+
+.landing ::selection {
+  background: var(--s-200);
+  color: var(--p-950);
+}
+
+/* --------------------------------------------------------------------------
+   Yerleşim
+   -------------------------------------------------------------------------- */
+
+.container {
+  width: 100%;
+  max-width: calc(var(--max) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  position: relative;
+  padding-block: clamp(88px, 11vw, 160px);
+}
+
+.dark {
+  background: var(--p-950);
+  color: rgb(255 255 255 / 0.74);
+  --ink: #fff;
+  --text: rgb(255 255 255 / 0.74);
+  --muted: rgb(255 255 255 / 0.56);
+  --line: rgb(255 255 255 / 0.12);
+}
+
+/* --------------------------------------------------------------------------
+   Tipografi
+   -------------------------------------------------------------------------- */
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--f-heading);
+  font-weight: 600;
+  font-size: 12.5px;
+  line-height: 1;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  /* açık zeminde amber-700 (5.8:1); koyu zeminde amber-400 aşağıda */
+  color: var(--s-700);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 26px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.dark .eyebrow {
+  color: var(--s-400);
+}
+
+.display {
+  font-family: var(--f-display);
+  font-weight: 380;
+  font-variation-settings: "SOFT" 100;
+  letter-spacing: -0.022em;
+  line-height: 1.02;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.h2 {
+  font-size: clamp(2.35rem, 1.45rem + 3.5vw, 4.4rem);
+}
+
+.h3 {
+  font-family: var(--f-heading);
+  font-weight: 600;
+  font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.lead {
+  font-size: clamp(1.0625rem, 0.98rem + 0.35vw, 1.25rem);
+  line-height: 1.68;
+  color: var(--text);
+  text-wrap: pretty;
+}
+
+.prose > * + * {
+  margin-top: 1.05em;
+}
+
+.gold {
+  color: var(--s-400);
+}
+
+.italic {
+  font-style: italic;
+}
+
+/* --------------------------------------------------------------------------
+   Butonlar: sitedeki hap formu, iç ışık gölgesi ve renkler
+   -------------------------------------------------------------------------- */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 58px;
+  padding: 0 30px;
+  border: 0;
+  border-radius: 999px;
+  font-family: var(--f-heading);
+  font-weight: 600;
+  font-size: 16.5px;
+  letter-spacing: -0.005em;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 0.25s var(--ease),
+    background-color 0.25s ease,
+    box-shadow 0.25s ease,
+    color 0.25s ease;
+}
+
+.btn svg {
+  flex: none;
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--s-300);
+  outline-offset: 3px;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btnPrimary {
+  background: var(--p-600);
+  color: #fff;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.16),
+    0 14px 30px -14px rgb(14 46 44 / 0.7);
+}
+
+.btnPrimary:hover {
+  background: var(--p-700);
+  transform: translateY(-1px);
+}
+
+.btnLight {
+  background: #fff;
+  color: var(--p-800);
+  box-shadow:
+    0 0 0 1px var(--p-200),
+    inset 0 -2px 0 rgb(14 46 44 / 0.08);
+}
+
+.btnLight:hover {
+  background: var(--p-50);
+  transform: translateY(-1px);
+}
+
+.btnOutline {
+  background: rgb(255 255 255 / 0.06);
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.32);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.btnOutline:hover {
+  background: rgb(255 255 255 / 0.14);
+}
+
+.btnSm {
+  height: 44px;
+  padding: 0 20px;
+  font-size: 15px;
+  gap: 8px;
+}
+
+.textLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--f-heading);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--p-700);
+  text-decoration: none;
+  background-image: linear-gradient(var(--s-400), var(--s-400));
+  background-size: 100% 2px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  padding-bottom: 4px;
+  transition: color 0.2s ease, background-size 0.3s var(--ease);
+}
+
+/* dokunma alanı en az 44 px, görünüm değişmeden */
+.textLink::before {
+  content: "";
+  position: absolute;
+  inset: -8px -6px;
+}
+
+.textLink:hover {
+  color: var(--p-900);
+}
+
+.textLink svg {
+  transition: transform 0.3s var(--ease);
+}
+
+.textLink:hover svg {
+  transform: translateX(3px);
+}
+
+.dark .textLink {
+  color: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   Görünürlük animasyonu (RevealObserver ile)
+   JS yoksa içerik her zaman görünür kalır.
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  :global(html.js) .landing [data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+    transition:
+      opacity 1s var(--ease),
+      transform 1s var(--ease);
+    transition-delay: var(--d, 0ms);
+  }
+
+  :global(html.js) .landing [data-reveal="fade"] {
+    transform: none;
+  }
+
+  :global(html.js) .landing [data-reveal][data-visible] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* kendi çocuklarını kendisi canlandıran bileşenler (ör. şapka ızgarası) */
+  :global(html.js) .landing [data-reveal="self"] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Taslak modu (?taslak): değiştirilecek metinleri işaretler */
+:global(html[data-taslak]) .landing [data-ph] {
+  background: #fde68a;
+  color: #1a1203;
+  outline: 2px dashed #d97706;
+  outline-offset: 1px;
+  border-radius: 3px;
+}

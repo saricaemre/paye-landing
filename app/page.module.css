@@ -1,0 +1,88 @@
+.main {
+  min-height: 100svh;
+  padding: 12vh 24px 64px;
+  max-width: 880px;
+  margin: 0 auto;
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  color: #0e2e2c;
+}
+
+.kicker {
+  font-family: var(--font-onest), system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #bc6c18;
+}
+
+.title {
+  margin-top: 14px;
+  font-family: var(--font-onest), system-ui, sans-serif;
+  font-weight: 380;
+  font-size: clamp(2.6rem, 2rem + 3vw, 4.2rem);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 48px;
+}
+
+.card {
+  display: grid;
+  gap: 6px;
+  min-height: 160px;
+  padding: 22px;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow:
+    0 0 0 1px #d5ebe9,
+    0 24px 60px -34px rgb(14 46 44 / 0.45);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+a.card:hover {
+  transform: translateY(-3px);
+}
+
+.project {
+  font-family: var(--font-onest), system-ui, sans-serif;
+  font-size: 14px;
+  color: #5d6c6a;
+}
+
+.name {
+  font-family: var(--font-onest), system-ui, sans-serif;
+  font-size: 30px;
+  line-height: 1.1;
+}
+
+.go {
+  align-self: end;
+  font-family: var(--font-onest), system-ui, sans-serif;
+  font-weight: 600;
+  color: #1e6e6a;
+}
+
+.soon {
+  opacity: 0.55;
+}
+
+.hint {
+  margin-top: 40px;
+  font-size: 15px;
+  color: #5d6c6a;
+}
+
+.hint code {
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: #eef6f5;
+  color: #134a47;
+}

@@ -1,0 +1,254 @@
+/* Köyün kesiti: Rehema'nın tozlu zemini yer yüzeyi, altında toprak, en altta
+   koyu petrol su. Yürüyüş ekranı boydan boya kat ediyor, kuyu kısa ve dümdüz:
+   su çok yakın, yol çok uzak. Son renk bir sonraki koyu bölümle aynı. */
+
+.section {
+  --x: 6%;
+  --dot: var(--clay, #a8603c);
+  --water: var(--deep, #073a3d);
+  --label: var(--ink, #0a3f42);
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  background: var(--water);
+}
+
+.cut {
+  position: relative;
+}
+
+/* ---------- Yer yüzeyi ---------- */
+
+/* Gökyüzü yalnızca yolun tepeleri kadar: üstünde boş toz kalmasın, yol Rehema'nın
+   hikâyesinin hemen altından başlasın. Yolun eğrisi eski boyuyla aynı. */
+.sky {
+  position: relative;
+  height: clamp(120px, 12vw, 165px);
+  background: var(--dust, var(--paper));
+}
+
+/* Paye'nin noktalı yolu: kutu esnese de noktalar yuvarlak kalır */
+.walk {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.walk path {
+  fill: none;
+  stroke: var(--dot);
+  stroke-width: 3.4;
+  stroke-linecap: round;
+  stroke-dasharray: 0.1 13;
+  vector-effect: non-scaling-stroke;
+}
+
+.home {
+  position: absolute;
+  left: var(--x);
+  bottom: 0;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  color: var(--label);
+  transform: translateX(-50%);
+}
+
+.home svg {
+  display: block;
+}
+
+.tag {
+  display: grid;
+  gap: 1px;
+  font-family: var(--f-heading);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: nowrap;
+  color: var(--label);
+}
+
+/* Evin adı çatının üstünde; yol ilk tepesine evden uzakta varır */
+.home .tag {
+  position: absolute;
+  left: 50%;
+  bottom: 44px;
+  transform: translateX(-24%);
+}
+
+.pond {
+  position: absolute;
+  right: 4%;
+  bottom: 0;
+  display: grid;
+  justify-items: center;
+}
+
+/* Göletin adı toprağın içinde, göletin hemen altında */
+.pondTag {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 18px);
+  z-index: 1;
+  justify-items: end;
+  text-align: right;
+}
+
+.pondTag span {
+  font-weight: 500;
+}
+
+.pondShape {
+  display: block;
+  width: clamp(54px, 7vw, 96px);
+  height: 12px;
+  border-radius: 50% 50% 46% 46% / 20% 20% 100% 100%;
+  background: #8f6f4f;
+  transform: translateY(10px);
+}
+
+/* ---------- Yerin altı ---------- */
+
+.ground {
+  position: relative;
+  height: clamp(130px, 12vw, 170px);
+  background: linear-gradient(to bottom, #e3cdb2 0%, #cfb08c 46%, #a8865f 100%);
+}
+
+/* Kuyu: kısa ve dümdüz */
+.down {
+  position: absolute;
+  left: var(--x);
+  top: 4px;
+  bottom: 2px;
+  width: 4px;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, var(--water) 1.8px, transparent 2.2px) 0 0 / 4px 13px repeat-y;
+}
+
+.depth {
+  position: absolute;
+  left: calc(var(--x) + 22px);
+  top: 50%;
+  display: grid;
+  gap: 1px;
+  font-family: var(--f-heading);
+  font-size: 15px;
+  line-height: 1.3;
+  color: var(--label);
+  transform: translateY(-50%);
+}
+
+.depth strong {
+  font-weight: 700;
+  font-size: clamp(17px, 1.6vw, 20px);
+}
+
+
+/* Toprağın altında su: dalgalı bir yüzey ve çizginin dibinde sakin halkalar */
+.waterline {
+  position: relative;
+  height: 56px;
+  margin-top: -20px;
+}
+
+.waterline svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.waterline path {
+  fill: var(--water);
+}
+
+.spring {
+  position: absolute;
+  left: var(--x);
+  top: 20px;
+  width: 0;
+  height: 0;
+}
+
+.spring i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 40px;
+  height: 12px;
+  border: 1.5px solid rgb(247 198 90 / 0.85);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.spring i:nth-child(2) {
+  width: 92px;
+  height: 26px;
+  border-color: rgb(247 198 90 / 0.45);
+}
+
+.spring i:nth-child(3) {
+  width: 156px;
+  height: 42px;
+  border-color: rgb(247 198 90 / 0.2);
+}
+
+@media (max-width: 599px) {
+  .section {
+    --x: 9%;
+  }
+
+  .home .tag {
+    transform: translateX(-16%);
+  }
+
+  .tag {
+    font-size: 14px;
+  }
+}
+
+/* ---------- Ekrana girerken yollar bir kez uzar ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  :global(html.js) .section:not([data-drawn]) .walk {
+    clip-path: inset(-10% 100% -10% 0);
+  }
+
+  :global(html.js) .section:not([data-drawn]) .down {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  :global(html.js) .section:not([data-drawn]) .pondTag,
+  :global(html.js) .section:not([data-drawn]) .depth,
+  :global(html.js) .section:not([data-drawn]) .spring {
+    opacity: 0;
+  }
+
+  .walk {
+    clip-path: inset(-10% 0 -10% 0);
+    transition: clip-path 2.2s cubic-bezier(0.45, 0, 0.25, 1) 0.15s;
+  }
+
+  .pondTag {
+    transition: opacity 0.6s ease 2.1s;
+  }
+
+  .down {
+    clip-path: inset(0);
+    transition: clip-path 0.7s cubic-bezier(0.45, 0, 0.3, 1) 2.5s;
+  }
+
+  .depth {
+    transition: opacity 0.6s ease 3s;
+  }
+
+  .spring {
+    transition: opacity 0.9s ease 3.1s;
+  }
+}

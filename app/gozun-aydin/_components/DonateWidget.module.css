@@ -1,0 +1,318 @@
+.card {
+  position: relative;
+  padding: clamp(22px, 2.8vw, 32px);
+  border-radius: var(--radius);
+  background: #fff;
+  color: var(--text);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.6),
+    0 40px 80px -40px rgb(0 0 0 / 0.55);
+  --ink: #0e2e2c;
+  --text: #2a3a39;
+  --muted: #5d6c6a;
+}
+
+/* ---------- Seçenek ---------- */
+
+.modes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 24px;
+  border-radius: 999px;
+  background: var(--p-50);
+  box-shadow: inset 0 0 0 1px var(--p-100);
+}
+
+.mode {
+  height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--f-heading);
+  font-weight: 600;
+  font-size: 14.5px;
+  color: var(--p-800);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.mode[aria-pressed="true"] {
+  background: #fff;
+  color: var(--p-950);
+  box-shadow:
+    0 0 0 1px var(--p-100),
+    0 6px 14px -8px rgb(14 46 44 / 0.35);
+}
+
+/* ---------- Başlık satırı ---------- */
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 20px;
+  border-bottom: 1.5px dashed var(--s-200);
+}
+
+.headText {
+  flex: 1;
+  min-width: 0;
+}
+
+.name {
+  font-family: var(--f-heading);
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.sub {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.unit {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-family: var(--f-heading);
+}
+
+.unit strong {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.unit span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ---------- Adet / tutar ---------- */
+
+.qty {
+  margin: 20px 0 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.legend {
+  padding: 0;
+  margin-bottom: 12px;
+  font-family: var(--f-heading);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.presets {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.preset {
+  height: 50px;
+  padding: 0 4px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--p-50);
+  box-shadow: inset 0 0 0 1px var(--p-100);
+  font-family: var(--f-heading);
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--p-800);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease;
+}
+
+.preset:hover {
+  background: var(--p-100);
+}
+
+.preset[aria-pressed="true"] {
+  position: relative;
+  background: var(--p-950);
+  color: #fff;
+  box-shadow: none;
+}
+
+/* seçili düğme yalnızca renge dayanmasın: küçük onay işareti */
+.preset[aria-pressed="true"]::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--s-400) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230e2e2c' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'><path d='M20 6 9 17l-5-5'/></svg>") center / 8px no-repeat;
+}
+
+.mode:focus-visible,
+.preset:focus-visible,
+.stepBtn:focus-visible,
+.input:focus-visible,
+.donate:focus-visible {
+  outline: 3px solid var(--s-300);
+  outline-offset: 2px;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding: 8px 8px 8px 16px;
+  border-radius: 14px;
+  background: #f6f7f6;
+}
+
+.stepperLabel {
+  font-family: var(--f-heading);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.stepperCtrl {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stepBtn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--p-800);
+  box-shadow: 0 0 0 1px var(--p-100);
+  cursor: pointer;
+}
+
+.stepBtn:hover:not(:disabled) {
+  background: var(--p-50);
+}
+
+.stepBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.input {
+  width: 52px;
+  height: 44px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  text-align: center;
+  font-family: var(--f-heading);
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--ink);
+}
+
+.amountCtrl {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  height: 44px;
+  padding: 0 6px 0 12px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 0 0 1px var(--p-100);
+  font-family: var(--f-heading);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.amountInput {
+  width: 84px;
+  text-align: left;
+}
+
+/* ---------- Toplam ve buton ---------- */
+
+.total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--p-100);
+}
+
+.total span {
+  font-family: var(--f-heading);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.total strong {
+  font-family: var(--f-heading);
+  font-weight: 700;
+  font-size: clamp(30px, 3.2vw, 36px);
+  letter-spacing: -0.02em;
+  color: var(--p-700);
+}
+
+.donate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 64px;
+  margin-top: 16px;
+  padding: 0 24px;
+  border-radius: 16px;
+  background: var(--p-600);
+  color: #fff;
+  font-family: var(--f-heading);
+  font-weight: 600;
+  font-size: 17px;
+  text-decoration: none;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.16),
+    0 18px 30px -16px rgb(14 46 44 / 0.75);
+  transition: background-color 0.2s ease;
+}
+
+.donate:hover {
+  background: var(--p-700);
+}
+
+.coin {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff1c9 0%, #f2c46d 38%, #d08f2c 72%, #a8681b 100%);
+  box-shadow:
+    inset 0 0 0 2px rgb(255 241 201 / 0.55),
+    0 2px 6px rgb(0 0 0 / 0.25);
+  color: rgb(122 72 15 / 0.75);
+}
+
+.coin svg {
+  width: 15px;
+  height: auto;
+}

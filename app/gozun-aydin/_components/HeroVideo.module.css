@@ -1,0 +1,288 @@
+/* Girişteki mercek: yuvarlak video, ince amber halka, halkanın üstünde
+   küçük bir durdurma düğmesi. Boyutu dış kapsayıcı belirler. */
+
+.lens {
+  --gap: clamp(12px, 1.4vw, 18px);
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.shadow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow:
+    0 40px 90px -30px rgb(0 0 0 / 0.55),
+    0 0 0 1px rgb(255 255 255 / 0.06);
+}
+
+.glass {
+  position: absolute;
+  inset: 0;
+  clip-path: circle(50% at 50% 50%);
+  background: #4a3b33 url("/gozun-aydin/bahar.jpg") center / cover no-repeat;
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+}
+
+/* ----- Sürgü: çizginin solu katarakt gözüyle --------------------- */
+
+.lens {
+  cursor: ew-resize;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Aynı videonun buğulu hâli: bulanık, soluk, sütlü bir perde.
+   Ayrı bir kare değil, videonun üstüne binen bir filtre. */
+.haze {
+  --blur: 10px;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  clip-path: inset(0 calc(100% - var(--pos)) 0 0);
+  background: rgb(222 212 188 / 0.22);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(0.55) contrast(0.82) sepia(0.2);
+  backdrop-filter: blur(var(--blur)) saturate(0.55) contrast(0.82) sepia(0.2);
+  pointer-events: none;
+}
+
+@media (max-width: 959px) {
+  .haze {
+    --blur: 6px;
+  }
+}
+
+/* Etiketler dairenin üst kısmında; çizgi üstlerinden geçince kesilirler */
+.tag {
+  position: absolute;
+  top: 19%;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-family: var(--f-heading);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.tag[data-side="before"] {
+  left: 17%;
+  background: rgb(14 46 44 / 0.5);
+  color: #fff;
+}
+
+.short {
+  display: none;
+}
+
+@media (max-width: 959px) {
+  .long {
+    display: none;
+  }
+
+  .short {
+    display: inline;
+  }
+
+  .tag[data-side="before"] {
+    left: 20%;
+  }
+}
+
+/* Çizgi camın içinde, daireyle birlikte kesilir */
+.line {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  bottom: 0;
+  left: var(--pos);
+  width: 2px;
+  margin-left: -1px;
+  background: rgb(255 255 255 / 0.95);
+  box-shadow: 0 0 14px rgb(0 0 0 / 0.18);
+  pointer-events: none;
+}
+
+/* Tutamaç camın dışında: en soldayken halkanın üstünde durur */
+.handle {
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  bottom: 0;
+  left: var(--pos);
+  width: 0;
+  pointer-events: none;
+}
+
+.knob {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--p-800);
+  box-shadow:
+    0 0 0 5px rgb(255 255 255 / 0.3),
+    0 12px 28px -10px rgb(14 46 44 / 0.55);
+  transform: translate(-50%, -50%);
+  transition: transform 0.25s var(--ease);
+}
+
+.lens:active .knob {
+  transform: translate(-50%, -50%) scale(0.94);
+}
+
+.lens:has(.range:focus-visible) .knob {
+  outline: 3px solid var(--s-300);
+  outline-offset: 4px;
+}
+
+.hint {
+  position: absolute;
+  top: 50%;
+  left: 38px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgb(14 46 44 / 0.78);
+  color: #fff;
+  font-family: var(--f-heading);
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  transform: translateY(-50%);
+  transition: opacity 0.4s ease;
+}
+
+.hint[data-hidden] {
+  opacity: 0;
+}
+
+/* Klavye için görünmez kaydırıcı; odak halkası düğmede görünür */
+.range {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ring {
+  position: absolute;
+  inset: calc(var(--gap) * -1);
+  border-radius: 50%;
+  border: 1.5px solid rgb(233 162 59 / 0.6);
+  pointer-events: none;
+}
+
+/* Halkanın üstünde, saat dört buçuk yönünde */
+.toggle {
+  position: absolute;
+  left: calc(50% + (50% + var(--gap)) * 0.7071);
+  top: calc(50% + (50% + var(--gap)) * 0.7071);
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1.5px solid rgb(233 162 59 / 0.6);
+  border-radius: 50%;
+  background: var(--p-950);
+  color: rgb(255 255 255 / 0.86);
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+/* dokunma alanı 46 px, görünen halka 38 px */
+.toggle::before {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+}
+
+.toggle:hover {
+  color: #fff;
+  border-color: var(--s-400);
+}
+
+.toggle:focus-visible {
+  outline: 3px solid var(--s-300);
+  outline-offset: 2px;
+}
+
+/* Açılışta bir kez: görüntü buğudan çıkıp netleşir, halka yerine oturur */
+@media (prefers-reduced-motion: no-preference) {
+  .glass {
+    animation: focusIn 2s var(--ease) 0.1s both;
+  }
+
+  .ring {
+    animation: ringIn 1.6s var(--ease) 0.45s both;
+  }
+
+  .toggle,
+  .handle {
+    animation: fadeIn 0.6s ease 1.5s both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .knob,
+  .hint {
+    transition: none;
+  }
+}
+
+@keyframes focusIn {
+  from {
+    filter: blur(18px) saturate(0.45) brightness(1.18);
+    transform: scale(1.04);
+  }
+  to {
+    filter: blur(0) saturate(1) brightness(1);
+    transform: scale(1);
+  }
+}
+
+@keyframes ringIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+}
